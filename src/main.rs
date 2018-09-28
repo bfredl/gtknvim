@@ -4,6 +4,7 @@
 
 //use futures::future::Future; // Note: It's not `futures_preview`
 //use futures::prelude::*;
+use futures::executor::block_on;
 
 use glib;
 //use glib::main_context_futures::MainContext;
@@ -17,7 +18,7 @@ fn main() {
         println!("Failed to initialize GTK.");
         return;
     }
-    let c = glib::MainContext::default();
+    //let c = glib::MainContext::default();
 
     let window = Window::new(WindowType::Toplevel);
     window.set_title("First GTK+ Program");
@@ -35,7 +36,8 @@ fn main() {
         println!("Clicked!");
     });
 
-    c.spawn_local(goff());
+    //c.spawn_local(goff());
+    block_on(goff());
     gtk::main();
 }
 
