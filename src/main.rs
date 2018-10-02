@@ -1,10 +1,13 @@
-#![feature(generators, async_await, futures_api)]
+#![feature(generators, async_await, futures_api, await_macro)]
 
 //extern crate futures;
 
 //use futures::future::Future; // Note: It's not `futures_preview`
 //use futures::prelude::*;
 use futures::executor::block_on;
+//use futures::io::block_on;
+use futures::io::AsyncRead;
+use futures::io::{AsyncReadExt, Error};
 
 use glib;
 //use glib::main_context_futures::MainContext;
@@ -12,6 +15,9 @@ use glib;
 
 use gtk::prelude::*;
 use gtk::{Button, Window, WindowType};
+
+use rmp;
+use rmp::Marker;
 
 fn main() {
     if gtk::init().is_err() {
@@ -43,4 +49,10 @@ fn main() {
 
 async fn goff() {
     println!("Hello, goff!");
+}
+
+pub async fn read_marker<R: AsyncRead>(rd: &mut R) -> Result<Marker, Error> {
+    let mut bytes = [0u8;1];
+    let read = await!(rd.read_exact(&mut bytes))?;
+    Ok(Marker::from_u8(bytes[0]))
 }
