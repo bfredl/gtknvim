@@ -5,7 +5,7 @@ authors = ["Björn Linse <bjorn.linse@gmail.com>"]
 edition = "2018"
 
 [dependencies]
-futures-preview = "0.3.0-alpha.6"
+futures-preview = "0.3.0-alpha.7"
 gio = "0.5.0"
 rmp = "0.8.7"
 
